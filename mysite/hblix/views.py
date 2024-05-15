@@ -3,5 +3,10 @@ from django.http import HttpResponse
 
 # Create your views here.
 def homeView(request):
-    return HttpResponse('Hello to HBlix, watchers!')
-    #return render(request, 'index.html')
+    return render(request, 'pagess/home.html')
+
+def loginView(request):
+    return render(request, 'pages/login.html')
+
+def indexView(request):
+    return render(request, )

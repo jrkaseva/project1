@@ -1,7 +1,9 @@
 from django.contrib import admin
 from django.urls import include, path
+from .views import homeView, loginView, indexView
 
 urlpatterns = [
-    path('hblix/', include('hblix.urls')),
-    path('admin/', admin.site.urls),
-]
+    path('', indexView, name='index'),
+    path('login/', loginView, name='login'),
+    path('home/', homeView, name='home')
+]   
