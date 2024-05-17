@@ -1,15 +1,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Stream site</title>
+     <title>Stream site - login</title>
 </head>
 <body>
     <h1>Streamsite - the #1 site for streaming</h1>
-    <form action="/signup/" method="post">
-        <input type="text" name="username">
-        <input type="password" name="password">
-        <input type="submit" value="Sign up">
+    <form action="/login/" method="post" style="width:20em;display:flex;flex-direction: column; justify-content: center;">
+        {% csrf_token %}
+        <input type="text" name="username" placeholder="username">
+        <input type="password" name="password" placeholder="password">
+        <input type="submit" value="Log in">
     </form>
-    <h3>Have an account already?</h3>
-    <button>Log in</button>
 </body>
 </html>
