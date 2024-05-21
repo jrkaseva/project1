@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate
+from .models import Stream, Comment
 
 # Create your views here.
 def index(request):
@@ -7,16 +9,16 @@ def index(request):
     return render(request, 'pages/index.html')
 
 def home(request):
-    if request.method == 'GET':
-        if request.session['username'] == 'admin':
-            return render(request, 'pages/home.html', {'username': request.session['username']})
-    return redirect('/')
+
+    return render(request, 'pages/home.html')
 
 def login(request):
     if request.method == 'POST':
-        # TODO: This works, swap into a database (with no sql-injection protection)
-        if request.POST['username'] == 'admin' and request.POST['password'] == 'admin':
-            request.session['username'] = request.POST['username']
-            return redirect('/home')
+        user = authenticate(username=request.POST['username'], password=request.POST['password'])
+        if user is not None:
+            request.session['username'] = user.username
+            print("User:", user.username)
+            return render(request, 'pages/home.html', {'username': user.username, 'streams': Stream.objects.all(), 'comments': Comment.objects.all()})
+        print("Login failed:", user)
     return redirect('/')
 

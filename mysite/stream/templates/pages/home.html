@@ -7,17 +7,21 @@
     <h1>Streamsite - the #1 site for streaming</h1>
     <p>Welcome to the stream site. Here you can find all the latest movies and TV-shows.</p>
     <div>
-        <h2>Movies</h2>
+        <h2>Streams</h2>
         <ul>
-            <li>
-                King Kong
-            </li>
-        </ul>
-        <h2>TV-shows</h2>
-        <ul>
-            <li>
-                Friends
-            </li>
+            {% for stream in streams %}
+                <li style="margin: 15px;">
+                    {{stream}} <br>
+                    <dd>Comments:</dd>
+                    <ul>
+                        {% for comment in comments %}
+                            {% if comment.stream == stream %}
+                                <li>{{comment}}</li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endfor %}
         </ul>
     </div>
 </body>
