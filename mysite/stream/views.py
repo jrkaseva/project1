@@ -13,6 +13,8 @@ def index(request):
 def home(request):
     if request.session['username'] is not None:
         username = request.session['username']
+        # Bad fix -> on this row: request.session['username'] = None
+        # Good fix -> create logout view and function that resets the session
         return render(request, 'pages/home.html', {'username': username, 'streams': Stream.objects.all(), 'comments': Comment.objects.all()})
     return redirect('/')
 
@@ -50,5 +52,7 @@ def login(request):
         """A4 INSECURE DESIGN"""
         # Insecure design since it returns information about the number of users returned
         return render(request, 'pages/index.html', {'error': f'Error with login query: too many users returned ({len(user)})'})
+        # FIX: Always return the same message, regardless of the number of users returned
+        # return render(request, 'pages/index.html', {'error': 'Incorrect username or password'})
     return redirect('/')
 
