@@ -4,6 +4,9 @@
 </head>
 <body>
     <h1>Streamsite - the #1 site for streaming</h1>
+    {% if error %}
+        <p style="color:red;">{{error}}</p>
+    {% endif %}
     <form action="/login/" method="post" style="width:20em;display:flex;flex-direction: column; justify-content: center;">
         {% csrf_token %}
         <input type="text" name="username" placeholder="username">
