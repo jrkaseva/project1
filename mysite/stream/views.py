@@ -24,9 +24,14 @@ def home(request):
 # Unsafe since CSRF protection is disabled.
 @csrf_exempt
 def login(request):
+
+    # Reset session, since login attempt and no session should be active
     request.session['username'] = None
+
+    """A9 SECURITY LOGGING FAILURE"""
+    # Logging to file
     logging.basicConfig(filename="stream.log", level=logging.INFO)
-    logger.info("Login page accessed")
+
     if request.method == 'POST':
         """A3 INJECTION"""
         # SQL INJECTION using raw SQL query, getting user from stream_user table
@@ -42,7 +47,13 @@ def login(request):
         if len(user) == 1:
             user = user[0]
             request.session['username'] = user.username
-            logger.info(f"User {user.username} logged in")
+
+            """
+            FIXING LOGGING
+            
+            #logger.info(f"User {user.username} logged in")
+            """
+
             return redirect('/home', {'username': user.username, 'streams': Stream.objects.all(), 'comments': Comment.objects.all()})
         
         # SQL-INJECTION COUNTERMEASURE with ORM. Have users in auth_user table
@@ -54,12 +65,15 @@ def login(request):
             return render(request, 'pages/home.html', {'username': user.username, 'streams': Stream.objects.all(), 'comments': Comment.objects.all()})       
         """
 
-        logger.info("Login failed")
+        """
+        FIXING LOGGING
+
+        logger.info("Login failed: too many users returned")
+        """
+
         """A4 INSECURE DESIGN"""
         # Insecure design since it returns information about the number of users returned
         return render(request, 'pages/index.html', {'error': f'Error with login query: too many users returned ({len(user)})'})
         # FIX: Always return the same message, regardless of the number of users returned
         # return render(request, 'pages/index.html', {'error': 'Incorrect username or password'})
     return redirect('/')
-
-#TODO: "ADD A FIFTH VULNERABILITY"

@@ -3,3 +3,4 @@ INFO:stream.views:Login page accessed
 INFO:stream.views:Login page accessed
 INFO:stream.views:Login page accessed
 INFO:stream.views:User wukong logged in
+INFO:django.utils.autoreload:/home/joakim/jyu/mooc/cyber/project1/mysite/stream/views.py changed, reloading.
