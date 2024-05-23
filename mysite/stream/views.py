@@ -51,7 +51,7 @@ def login(request):
             """
             FIXING LOGGING
             
-            #logger.info(f"User {user.username} logged in")
+            #logger.info(f"User {request.POST['username']} logged in")
             """
 
             return redirect('/home', {'username': user.username, 'streams': Stream.objects.all(), 'comments': Comment.objects.all()})
@@ -69,6 +69,8 @@ def login(request):
         FIXING LOGGING
 
         logger.info("Login failed: too many users returned")
+        logger.info(r"Attempted username: {0}".format([request.POST['username']))
+        logger.info(r"Attempted password: {0}".format([request.POST['password']))
         """
 
         """A4 INSECURE DESIGN"""
